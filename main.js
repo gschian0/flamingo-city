@@ -1,4 +1,3 @@
-
 //main function to randomize images for avatar generation
 const pickImageToBlend =(subpath, amt) => {
   const image = new Image();
@@ -7,22 +6,43 @@ const pickImageToBlend =(subpath, amt) => {
   const finalPath = subPath + imgAmt + ".png";
   return image.src = finalPath;
   }
-//array of images for the avatar
+
+// generate random color background and other applications 
+let generateRandomColor = () => {
+  var r = Math.floor(Math.random() * (255-100+1) +100);
+  var g = Math.floor(Math.random() * (255-100+1) +100);
+  var b = Math.floor(Math.random() * (255-100+1) +100);
+  let bgCol = '#' + r.toString(16) + g.toString(16) + b.toString(16);
+  return bgCol;
+  }
+
+//array of images for the avatar to supply the canvas context to draw wrapped up for iterating
 const imgArr = [];
 
 window.onload =  () => {
     //create canvas
     const canvas = document.getElementById("canvas");
-    //NAME FIRST IMAGE
+    // SIZE OF INPUT SQUARE
+    let squareImageSize = 500;
+    //NAME FIRST IMAGE 
     let robotHead = new Image();
     //NAMES SECOND IMAGE
     let cloudsImg = new Image();
+
+    //assign random file to image output
+    //quotation is folder path to image collections ... head... body... etc.. etc..
     cloudsImg.src = pickImageToBlend("img/clouds/cloud", 5);
     robotHead.src = pickImageToBlend("img/colclouds/colcloud", 5);
+
+    // add more images to the array by loading them from files from folder
+    // let newImage = new Image();
+    // newImage.src = pickImageToBlend("img/folder/filename", ammount of images);
+    //imgArr[i] = newImage;
     
     //assign images to the array
     imgArr[0] = robotHead;
     imgArr[1] = cloudsImg;
+    // ... would be imgARR[2] = nameImg;
 
     //build robot when images load
     robotHead.onload= () => {
@@ -30,24 +50,36 @@ window.onload =  () => {
 }
   // function to render the robot to screen
   let buildRobot = () => {
-    var ctx = canvas.getContext("2d");
-    canvas.width= canvas.height= 500;
+    const ctx = canvas.getContext("2d");
+    canvas.width= canvas.height= squareImageSize;
+    
+    ctx.fillStyle = generateRandomColor(); 
+    
+    ctx.alpha = 0.5;
+    ctx.fillRect(0, 0, squareImageSize, squareImageSize);
+    
     //draw first image of array
-    ctx.drawImage(imgArr[0], (500-robotHead.width),0);
-     ctx.blendMode= "multiply";
+    ctx.drawImage(imgArr[0], (squareImageSize-imgArr[0].width),0);
+    ctx.globalCompositeOperation = "source-atop";
    
-    //draw second image of array
-    ctx.drawImage(imgArr[1], (500-cloudsImg.width),0);
+     //draw second image of array
+    ctx.drawImage(imgArr[1], (squareImageSize-imgArr[1].width),0);
 
+    
+    // would be to draw the next image of the array ... and so on ... 
+    // ctx.drawImage(imgArr[2], (500-imgArr[2].width),0);
+    
     //set up link to canvas and naming of png
-    var link = document.getElementById('link');
+    const link = document.getElementById('link');
     link.setAttribute('download', `Avatar${Math.random()}.png`);
     link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-    
   }
 }
 
-    
+
+
+//old logic to keep in mind
+   { 
     // link.click();
 
   
@@ -70,4 +102,4 @@ window.onload =  () => {
     
 
 
-    //
+   }
