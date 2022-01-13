@@ -163,13 +163,17 @@ window.onload = function () {
   var layer7 = new Image(); //assign random file to image output
   //quotation is folder path to image collections ... head... body... etc.. etc..
 
-  layer1.src = selectImage("img/Layer1/Common/", 1);
-  layer2.src = selectImage("img/Layer2/Common/", 5);
-  layer3.src = selectImage("img/Layer3/Common/", 2);
-  layer4.src = selectImage("img/Layer4/Common/", 3);
-  layer5.src = selectImage("img/Layer5/Common/", 4);
-  layer6.src = selectImage("img/Layer6/Common/", 2);
-  layer7.src = selectImage("img/Layer7/Common/", 3); // add more images to the array by loading them from files from folder
+  var setSource = function setSource(l1, l2, l3, l4, l5, l6, l7) {
+    layer1.src = selectImage("img/Layer1/Common/", l1);
+    layer2.src = selectImage("img/Layer2/Common/", l2);
+    layer3.src = selectImage("img/Layer3/Common/", l3);
+    layer4.src = selectImage("img/Layer4/Common/", l4);
+    layer5.src = selectImage("img/Layer5/Common/", l5);
+    layer6.src = selectImage("img/Layer6/Common/", l6);
+    layer7.src = selectImage("img/Layer7/Common/", l7);
+  };
+
+  setSource(1, 1, 6, 3, 3, 3, 3); // add more images to the array by loading them from files from folder
   // let newImage = new Image();
   // newImage.src = pickImageToBlend("img/folder/filename", ammount of images);
   //imgArr[i] = newImage;
@@ -209,9 +213,9 @@ window.onload = function () {
     // }
     //draw first image of array
     // ctx.globalCompositeOperation = "source-atop";
+    // ctx.globalCompositeOperation = "source-over";
 
-    ctx.globalCompositeOperation = "source-over";
-    imgArr[0].src = selectImage("img/Layer1/Common/", 1);
+    imgArr[0].src = selectImage("img/Layer1/Common/", 2);
     ctx.globalCompositeOperation = "source-atop"; // imgArr[1].src = selectImage(`img/Layer2/Common/`,  1)
     // ctx.globalCompositeOperation = "source-over";
     // imgArr[2].src = selectImage(`img/Layer3/Common/`, ol3)
